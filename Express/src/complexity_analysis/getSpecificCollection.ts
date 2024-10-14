@@ -1,3 +1,18 @@
+import { eq } from "drizzle-orm";
+import express, { NextFunction, Request, Response } from "express";
+import { BookWithAuthorsAndGenres } from "../../types/BookAuthorGenre";
+import { db } from "../db/db";
+import {
+  Book,
+  BookAuthor,
+  BookGenre,
+  Collection,
+  CollectionBook,
+} from "../db/schema";
+import { authMiddleware } from "../middlewares/authMiddleware";
+
+export const router = express.Router();
+
 const checkPublicCollection = async (
   req: Request,
   res: Response,
