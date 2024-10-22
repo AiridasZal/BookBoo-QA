@@ -1,7 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
-import BookRouter from "./book";
+import BookRouter from "./routes/bookRoutes";
 import CollectionRouter from "./collection";
 import RecommendationRouter from "./recommendation";
 import WebhookRouter from "./webhook";
