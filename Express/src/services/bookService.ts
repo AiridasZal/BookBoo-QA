@@ -9,19 +9,19 @@ import {
 import { EXPRESS_URL, PORT } from "../config";
 
 export async function fetchRandomBooks(limit: number) {
-  const books = await getRandomBooks(limit);
+  const Books = await getRandomBooks(limit);
 
   return Promise.all(
-    books.map(async (book) => {
-      const [authors, genres] = await Promise.all([
+    Books.map(async (book) => {
+      const [Authors, Genres] = await Promise.all([
         getBookAuthors(book.id),
         getBookGenres(book.id),
       ]);
 
       return {
         ...book,
-        authors: authors.map((a) => a.name),
-        genres: genres.map((g) => g.genre),
+        authors: Authors.map((a) => a.name),
+        genres: Genres.map((g) => g.genre),
       };
     })
   );
@@ -35,7 +35,7 @@ export async function fetchSearchedBooks(
   const offset = (page - 1) * limit;
   const books = await searchBooks(query, limit, offset);
 
-  const booksDetails = await Promise.all(
+  const data = await Promise.all(
     books.map(async (book) => {
       const [authors, genres] = await Promise.all([
         getBookAuthors(book.id),
@@ -50,17 +50,17 @@ export async function fetchSearchedBooks(
     })
   );
 
-  const totalBooksCount = await getTotalBooksCount(query);
-  const totalPages = Math.ceil(totalBooksCount / limit);
+  const TotalBooksCount = await getTotalBooksCount(query);
+  const TotalPages = Math.ceil(TotalBooksCount / limit);
 
-  const next =
-    page < totalPages
+  const Next =
+    page < TotalPages
       ? `${EXPRESS_URL}:${PORT}/api/book/search?query=${query}&page=${
           page + 1
         }&limit=${limit}`
       : null;
 
-  const prev =
+  const Prev =
     page > 1
       ? `${EXPRESS_URL}:${PORT}/api/book/search?query=${query}&page=${
           page - 1
@@ -68,16 +68,16 @@ export async function fetchSearchedBooks(
       : null;
 
   return {
-    count: totalBooksCount,
-    next,
-    prev,
-    results: booksDetails,
+    count: TotalBooksCount,
+    next: Next,
+    prev: Prev,
+    results: data,
   };
 }
 
 export async function fetchBookById(bookId: number) {
-  const book = await getBookById(bookId);
-  if (!book) return null;
+  const data = await getBookById(bookId);
+  if (!data) return null;
 
   const [authors, genres] = await Promise.all([
     getBookAuthors(bookId),
@@ -85,7 +85,7 @@ export async function fetchBookById(bookId: number) {
   ]);
 
   return {
-    ...book,
+    ...data,
     authors: authors.map((a) => a.name),
     genres: genres.map((g) => g.genre),
   };
