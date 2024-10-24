@@ -1,19 +1,12 @@
 import bodyParser from "body-parser";
+import { eq } from "drizzle-orm";
 import express, { Request, Response } from "express";
 import { Webhook } from "svix";
-import dotenv from "dotenv";
 import { WebhookEvent } from "../types/WebhookEvent";
 import { db } from "./db/db";
 import { InsertUser, User } from "./db/schema";
-import { eq } from "drizzle-orm";
 
 const router = express.Router();
-
-if (process.env.NODE_ENV === "production") {
-  dotenv.config({ path: ".prod.env" });
-} else {
-  dotenv.config({ path: ".dev.env" });
-}
 
 router.post(
   "/api/webhooks",

@@ -1,5 +1,5 @@
 import { and, eq } from "drizzle-orm";
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { BookWithAuthorsAndGenres } from "../types/BookAuthorGenre";
 import {
   CollectionParamsSchema,
